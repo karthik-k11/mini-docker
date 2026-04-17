@@ -3,9 +3,7 @@ import sys
 import subprocess
 
 def run_command(command: str):
-    """
-    Runs a shell command using subprocess
-    """
+    
     try:
         result = subprocess.run(
             command,
