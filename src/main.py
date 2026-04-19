@@ -15,6 +15,7 @@ def run_command(command: str):
         print(f"Error: Command failed with exit code {e.returncode}")
         sys.exit(e.returncode)
 
+##Main function()
 def main():
     if len(sys.argv) < 3:
         print("Usage: python main.py run <command>")
