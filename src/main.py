@@ -6,8 +6,6 @@ import subprocess
 
 def setup_mount_namespace():
 
-
-    ##Make mounts private
     subprocess.run(
         ["mount", "--make-rprivate", "/"],
         check=True
@@ -23,8 +21,8 @@ def run_command(command: str):
         ##CHILD PROCESS
 
         try:
-            ##Create PID + Mount namespace
-            os.unshare(os.CLONE_NEWPID | os.CLONE_NEWNS)
+            ##Only mount namespace 
+            os.unshare(os.CLONE_NEWNS)
         except PermissionError:
             print("Permission denied. Run with sudo.")
             sys.exit(1)
@@ -32,23 +30,12 @@ def run_command(command: str):
         ##Setup mount namespace
         setup_mount_namespace()
 
-        ##Second fork
-        pid2 = os.fork()
-
-        if pid2 == 0:
-            ##INNER CHILD
-
-            try:
-                args = command.split()
-                os.execvp(args[0], args)
-
-            except Exception as e:
-                print(f"Execution failed: {e}")
-                sys.exit(1)
-
-        else:
-            os.waitpid(pid2, 0)
-            sys.exit(0)
+        try:
+            args = command.split()
+            os.execvp(args[0], args)
+        except Exception as e:
+            print(f"Execution failed: {e}")
+            sys.exit(1)
 
     else:
         os.waitpid(pid, 0)
