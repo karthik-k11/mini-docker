@@ -6,14 +6,17 @@ import os
 def run_command(command: str):
     print(f"Running command: {command}")
 
-    ##First fork
     pid = os.fork()
 
     if pid == 0:
         ##CHILD PROCESS
 
-        ##Create new PID namespace
-        os.unshare(os.CLONE_NEWPID)
+        try:
+            ##Create new PID + Mount namespace
+            os.unshare(os.CLONE_NEWPID | os.CLONE_NEWNS)
+        except PermissionError:
+            print("❌ Permission denied. Run with sudo.")
+            sys.exit(1)
 
         ##Second fork
         pid2 = os.fork()
@@ -34,10 +37,9 @@ def run_command(command: str):
             sys.exit(0)
 
     else:
-        ##PARENT PROCESS
         os.waitpid(pid, 0)
 
-##Main function()
+
 def main():
     if len(sys.argv) < 3:
         print("Usage: python main.py run <command>")
