@@ -12,7 +12,6 @@ def setup_mount_namespace():
 
 
 def setup_chroot():
-
     new_root = "container_root"
 
     try:
@@ -37,15 +36,17 @@ def run_command(command: str):
             print("Permission denied. Run with sudo.")
             sys.exit(1)
 
-        ##Setup mount namespace
         setup_mount_namespace()
-
-        ##Enter container filesystem
         setup_chroot()
 
         try:
             args = command.split()
+
+            ##Apply CPU priority
+            os.nice(10)   ##lower priority
+
             os.execvp(args[0], args)
+
         except Exception as e:
             print(f"Execution failed: {e}")
             sys.exit(1)
@@ -53,7 +54,7 @@ def run_command(command: str):
     else:
         os.waitpid(pid, 0)
 
-##Main function()
+
 def main():
     if len(sys.argv) < 3:
         print("Usage: python main.py run <command>")
