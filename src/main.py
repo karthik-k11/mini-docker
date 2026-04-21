@@ -4,36 +4,40 @@ import os
 
 
 def run_command(command: str):
-
     print(f"Running command: {command}")
 
-    ##fork process
+    ##First fork
     pid = os.fork()
 
     if pid == 0:
         ##CHILD PROCESS
-        try:
-            ##Split command into list
-            args = command.split()
 
-            ##Replace current process with new program
-            os.execvp(args[0], args)
+        ##Create new PID namespace
+        os.unshare(os.CLONE_NEWPID)
 
-        except Exception as e:
-            print(f"Execution failed: {e}")
-            sys.exit(1)
+        ##Second fork
+        pid2 = os.fork()
+
+        if pid2 == 0:
+            ##INNER CHILD
+
+            try:
+                args = command.split()
+                os.execvp(args[0], args)
+
+            except Exception as e:
+                print(f"Execution failed: {e}")
+                sys.exit(1)
+
+        else:
+            os.waitpid(pid2, 0)
+            sys.exit(0)
 
     else:
         ##PARENT PROCESS
-        _, status = os.waitpid(pid, 0)
+        os.waitpid(pid, 0)
 
-        exit_code = os.WEXITSTATUS(status)
-
-        if exit_code != 0:
-            print(f"Error: Command failed with exit code {exit_code}")
-            sys.exit(exit_code)
-
-##Main function
+##Main function()
 def main():
     if len(sys.argv) < 3:
         print("Usage: python main.py run <command>")
