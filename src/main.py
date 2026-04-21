@@ -5,11 +5,22 @@ import subprocess
 
 
 def setup_mount_namespace():
-
     subprocess.run(
         ["mount", "--make-rprivate", "/"],
         check=True
     )
+
+
+def setup_chroot():
+
+    new_root = "container_root"
+
+    try:
+        os.chroot(new_root)
+        os.chdir("/")
+    except Exception as e:
+        print(f"chroot failed: {e}")
+        sys.exit(1)
 
 
 def run_command(command: str):
@@ -21,7 +32,6 @@ def run_command(command: str):
         ##CHILD PROCESS
 
         try:
-            ##Only mount namespace 
             os.unshare(os.CLONE_NEWNS)
         except PermissionError:
             print("Permission denied. Run with sudo.")
@@ -29,6 +39,9 @@ def run_command(command: str):
 
         ##Setup mount namespace
         setup_mount_namespace()
+
+        ##Enter container filesystem
+        setup_chroot()
 
         try:
             args = command.split()
