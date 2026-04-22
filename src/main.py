@@ -22,8 +22,8 @@ def setup_chroot():
         sys.exit(1)
 
 
-def run_command(command: str):
-    print(f"Running command: {command}")
+def run_command(args):
+    print(f"Running command: {' '.join(args)}")
 
     pid = os.fork()
 
@@ -40,11 +40,10 @@ def run_command(command: str):
         setup_chroot()
 
         try:
-            args = command.split()
-
             ##Apply CPU priority
-            os.nice(10)   ##lower priority
+            os.nice(10)
 
+            ##Execute command directly
             os.execvp(args[0], args)
 
         except Exception as e:
@@ -54,17 +53,18 @@ def run_command(command: str):
     else:
         os.waitpid(pid, 0)
 
-
+##Main function()
 def main():
     if len(sys.argv) < 3:
-        print("Usage: python main.py run <command>")
+        print("Usage: python main.py run <command> [args...]")
         sys.exit(1)
 
     action = sys.argv[1]
 
     if action == "run":
-        command = sys.argv[2]
-        run_command(command)
+        args = sys.argv[2:]
+        run_command(args)
+
     else:
         print(f"Unknown command: {action}")
         sys.exit(1)
