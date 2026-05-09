@@ -75,6 +75,23 @@ mini-docker/
 ├── README.md
 └── .gitignore
 
+
+### How It Works
+The runtime follows this workflow:
+Parse CLI input
+Create a child process using fork()
+Create a mount namespace
+Configure mount propagation
+Change the process root using chroot
+Apply CPU priority using nice
+Execute the requested command using execvp()
+This creates an isolated execution environment similar to how containers operate internally.
+
+
+### Requirements
+Linux or WSL2
+Python 3
+Root privileges (sudo)
 Limitations
 
 
