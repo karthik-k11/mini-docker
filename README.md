@@ -74,7 +74,7 @@ mini-docker/
 │   └── lib64/
 ├── README.md
 └── .gitignore
-
+'''
 
 ### How It Works
 The runtime follows this workflow:
@@ -145,3 +145,22 @@ Run a CPU-intensive process:
 '''bash
 sudo python3 src/main.py run yes
 '''
+
+### Similarities to Docker
+This project implements several concepts used in real container runtimes:
+- Filesystem isolation using chroot
+- Namespace isolation
+- Process isolation concepts
+- Container-style CLI workflow
+- Isolated execution environments
+
+### Limitations
+This is an educational implementation and does not include:
+- Full PID namespace support
+- Network namespaces
+- cgroups-based resource limits
+- OverlayFS image layering
+- Container lifecycle management
+- Security hardening
+- Production-grade isolation
+- WSL limitations also affect some namespace features.
