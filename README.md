@@ -106,5 +106,42 @@ mkdir -p container_root/bin
 mkdir -p container_root/lib
 mkdir -p container_root/lib64
 '''
+#### Copy Required Libraries
+Use ldd to inspect dependencies:
+'''bash
+ldd /bin/ls
+'''
+#### Copy required libraries into:
+'''bash
+container_root/lib/
+container_root/lib64/
+'''
 
+### Usage
+Run a Command
+'''bash
+sudo python3 src/main.py run ls
+'''
+Run Command with Arguments
+'''bash
+sudo python3 src/main.py run ls -l
+'''
+Run Inside Container Root
+'''bash
+sudo python3 src/main.py run ls /
+'''
+Run Echo
+'''bash
+sudo python3 src/main.py run echo hello world
+'''
 
+Example Output
+'''bash
+$ sudo python3 src/main.py run ls
+bin  lib  lib64
+'''
+Resource Control Example
+Run a CPU-intensive process:
+'''bash
+sudo python3 src/main.py run yes
+'''
