@@ -101,10 +101,12 @@ cd mini-docker
 '''
 
 Create Minimal Container Filesystem
-
+'''bash
 mkdir -p container_root/bin
 mkdir -p container_root/lib
 mkdir -p container_root/lib64
+'''
+
 Limitations
 
 
