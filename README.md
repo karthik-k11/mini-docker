@@ -164,3 +164,22 @@ This is an educational implementation and does not include:
 - Security hardening
 - Production-grade isolation
 - WSL limitations also affect some namespace features.
+
+### Future Improvements
+- Possible future enhancements include:
+- Full PID namespace support
+- Network namespace implementation
+- cgroups integration
+- OverlayFS support
+- Container IDs and lifecycle management
+- Better filesystem image management
+- Shell support inside containers
+
+### Key Learning Outcomes
+This project helped explore:
+- How containers work internally
+- Linux process management
+- Namespace isolation
+- Filesystem isolation techniques
+- Low-level operating system concepts
+- Container runtime architecture
