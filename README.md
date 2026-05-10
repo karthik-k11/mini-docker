@@ -107,9 +107,4 @@ mkdir -p container_root/lib
 mkdir -p container_root/lib64
 '''
 
-Limitations
-
-
-Conclusion 
-
 
