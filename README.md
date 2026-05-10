@@ -74,7 +74,7 @@ mini-docker/
 │   └── lib64/
 ├── README.md
 └── .gitignore
-'''
+```
 
 ### How It Works
 The runtime follows this workflow:
@@ -95,56 +95,56 @@ Root privileges (sudo)
 
 ### Setup
 Clone Repository
-'''bash
+```bash
 git clone <your-repo-url>
 cd mini-docker
-'''
+```
 
 Create Minimal Container Filesystem
-'''bash
+```bash
 mkdir -p container_root/bin
 mkdir -p container_root/lib
 mkdir -p container_root/lib64
-'''
+```
 #### Copy Required Libraries
 Use ldd to inspect dependencies:
-'''bash
+```bash
 ldd /bin/ls
-'''
+```
 #### Copy required libraries into:
-'''bash
+```bash
 container_root/lib/
 container_root/lib64/
-'''
+```
 
 ### Usage
 Run a Command
-'''bash
+```bash
 sudo python3 src/main.py run ls
-'''
+```
 Run Command with Arguments
-'''bash
+```bash
 sudo python3 src/main.py run ls -l
-'''
+```
 Run Inside Container Root
-'''bash
+```bash
 sudo python3 src/main.py run ls /
-'''
+```
 Run Echo
-'''bash
+```bash
 sudo python3 src/main.py run echo hello world
-'''
+```
 
 Example Output
-'''bash
+```bash
 $ sudo python3 src/main.py run ls
 bin  lib  lib64
-'''
+```
 Resource Control Example
 Run a CPU-intensive process:
-'''bash
+```bash
 sudo python3 src/main.py run yes
-'''
+```
 
 ### Similarities to Docker
 This project implements several concepts used in real container runtimes:
