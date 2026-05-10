@@ -92,6 +92,19 @@ This creates an isolated execution environment similar to how containers operate
 Linux or WSL2
 Python 3
 Root privileges (sudo)
+
+### Setup
+Clone Repository
+'''bash
+git clone <your-repo-url>
+cd mini-docker
+'''
+
+Create Minimal Container Filesystem
+
+mkdir -p container_root/bin
+mkdir -p container_root/lib
+mkdir -p container_root/lib64
 Limitations
 
 
